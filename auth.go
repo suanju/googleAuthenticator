@@ -123,34 +123,3 @@ func (ga *GoogleAuthenticator) GenerateQRCode(title string, secret string) (stri
 
 	return base64QR, nil
 }
-
-func main() {
-	authenticator := NewGoogleAuthenticator(6)
-	secret, err := authenticator.CreateSecret(16)
-	if err != nil {
-		fmt.Println("Error creating secret:", err)
-		return
-	}
-
-	fmt.Println("Generated Secret:", secret)
-
-	code, err := authenticator.GetCode(secret, 0)
-	if err != nil {
-		fmt.Println("Error generating code:", err)
-		return
-	}
-
-	fmt.Println("Generated Code:", code)
-
-	isValid := authenticator.VerifyCode(secret, code, 1, 0)
-	fmt.Println("Is the code valid?", isValid)
-
-	// 生成二维码并输出 Base64 编码
-	base64QRCode, err := authenticator.GenerateQRCode("MyAppName", secret)
-	if err != nil {
-		fmt.Println("Error generating QR code:", err)
-		return
-	}
-
-	fmt.Println("Base64 QR Code:", base64QRCode)
-}
